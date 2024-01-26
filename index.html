@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Sua Página</title>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <span>a</span>
+            </div>
+        </nav>
+    </header>
+    <input type="text" class="Palavras" />
+    <h5>!Apenas letras minúsculas e sem acento.</h5>
+    <button class="Criptografar">Criptografar</button>
+    <button class="Descriptografar">Descriptografar</button>
+
+    <div class="Mensagem">
+        <p class="texto1">Nenhuma mensagem encontrada</p>
+        <p class="texto2">Digite um texto que você deseja criptografar ou descriptografar.</p>
+        <button class="Copiar" style="display: none">Copiar</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var PalavrasInput = document.querySelector('.Palavras');
+            var Texto1 = document.querySelector('.texto1');
+            var Texto2 = document.querySelector('.texto2');
+            var CopiarBtn = document.querySelector('.Copiar');
+
+            function criptografarTexto(texto) {
+                return texto.replace(/e/g, 'enter')
+                    .replace(/i/g, 'imes')
+                    .replace(/a/g, 'ai')
+                    .replace(/o/g, 'ober')
+                    .replace(/u/g, 'ufat');
+            }
+
+            function descriptografarTexto(textoCriptografado) {
+                return textoCriptografado.replace(/enter/g, 'e')
+                    .replace(/imes/g, 'i')
+                    .replace(/ai/g, 'a')
+                    .replace(/ober/g, 'o')
+                    .replace(/ufat/g, 'u');
+            }
+
+            function atualizarTexto(resultado, mensagem) {
+    Texto1.textContent = resultado;
+    Texto2.textContent = mensagem;
+
+    // Verifica se há texto para copiar e se a operação foi realizada
+    var textoCopiar = Texto1.textContent.trim() || Texto2.textContent.trim();
+    CopiarBtn.style.display = textoCopiar ? 'block' : 'none';
+
+    // Ajusta a posição do texto dinamicamente
+    if (resultado) {
+        Texto1.style.marginTop = '5vw';
+        Texto2.style.marginTop = '5vw';
+    } else {
+        Texto1.style.marginTop = '25vw'; // Ajuste conforme necessário
+        Texto2.style.marginTop = '-20vw';
+
+    }
+}
+
+
+            function copiarTexto() {
+                var textoCopiar = Texto1.textContent || Texto2.textContent;
+
+                if (textoCopiar) {
+                    var textarea = document.createElement('textarea');
+                    textarea.value = textoCopiar;
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textarea);
+                    alert('Texto copiado para a área de transferência!');
+                }
+            }
+
+            document.querySelector('.Criptografar').addEventListener('click', function () {
+                var textoOriginal = PalavrasInput.value;
+                var textoCriptografado = criptografarTexto(textoOriginal);
+                atualizarTexto('Mensagem criptografada: ' + textoCriptografado, '');
+            });
+
+            document.querySelector('.Descriptografar').addEventListener('click', function () {
+                var textoCriptografado = PalavrasInput.value;
+                var textoDescriptografado = descriptografarTexto(textoCriptografado);
+                atualizarTexto('', 'Mensagem descriptografada: ' + textoDescriptografado);
+            });
+
+            CopiarBtn.addEventListener('click', copiarTexto);
+        });
+
+    </script>
+
+</body>
+
+</html>
